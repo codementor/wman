@@ -1,0 +1,26 @@
+linters:
+  auto-fix: false
+  enable:
+    - errcheck
+    - goimports
+    - golint
+    - gosec
+    - misspell
+    - scopelint
+    - unconvert
+    - unparam
+    - nakedret
+    - gocyclo
+    - dupl
+    - goconst
+    - lll
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+  lll:
+    line-length: 250
+  dupl:
+    threshold: 400
+  goimports:
+    # Choose your own project owner for <codementor>
+    local-prefixes: github.com/codementor
