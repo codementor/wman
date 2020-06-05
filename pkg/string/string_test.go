@@ -9,8 +9,8 @@ func TestReverse(t *testing.T) {
 		s, want string
 	}{
 		{"Hello", "olleH"},
-		{"¶","¶"},
-		{"",""},
+		{"¶", "¶"},
+		{"", ""},
 	}
 
 	for _, c := range tests {
