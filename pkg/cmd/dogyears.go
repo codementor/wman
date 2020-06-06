@@ -16,6 +16,7 @@ var (
   wman dogyears`
 )
 
+
 // newDogYearCmd returns a new initialized instance of the dogyear sub command
 func newDogYearCmd() *cobra.Command {
 
@@ -23,7 +24,7 @@ func newDogYearCmd() *cobra.Command {
 		Use:     "dogyear",
 		Short:   "Calculates dogyears",
 		Example: dogYearExample,
-		RunE:    lintTest,
+		RunE: DogYearCmd,
 	}
 
 	return cmd

@@ -1,0 +1,7 @@
+key: key
+unit: fahrenheit
+cities:
+  - Chicago
+  - London
+  - Paris
+  - Austin
