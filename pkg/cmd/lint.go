@@ -45,6 +45,7 @@ func lintTest(cmd *cobra.Command, args []string) error {
 		field1: x.field1,
 		field2: x.field2,
 	}
+	
 	fmt.Println(y)
 	fmt.Printf("value of check: %v", check(""))
 
