@@ -51,7 +51,7 @@ func lintTest(cmd *cobra.Command, args []string) error {
 	fmt.Println(y)
 	fmt.Printf("value of check: %v", check(""))
 
-	strs := []string{"kind: Namespace", "kind:Namespace", "kind: Foo", "kind", "kind:  Namespace"}
+	strs := []string{"kind: Namespace", "kind:Namespace", "kind: Foo", "kind", "kind:  Namespace", "kind: Namespace"}
 	newStrs := []string{}
 
 	if len(strs) != 0 {
@@ -65,7 +65,7 @@ func lintTest(cmd *cobra.Command, args []string) error {
 
 	for _, str := range newStrs {
 		if nsRegex.MatchString(str) {
-			fmt.Println(str)
+			set[str] = true
 		}
 	}
 
