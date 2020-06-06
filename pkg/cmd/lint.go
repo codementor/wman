@@ -12,7 +12,6 @@ var (
   wman lint`
 )
 
-
 // newLintCmd returns a new initialized instance of the lint sub command
 func newLintCmd() *cobra.Command {
 
@@ -20,7 +19,7 @@ func newLintCmd() *cobra.Command {
 		Use:     "lint",
 		Short:   "Linting exercise",
 		Example: lintExample,
-		RunE: lintTest,
+		RunE:    lintTest,
 	}
 
 	return cmd
@@ -31,16 +30,12 @@ type T struct {
 	field2 string
 }
 
-func (t T) String() string  {
-	return fmt.Sprint("%s.%s", t.field1, t.field2)
+func (t T) String() string {
+	return fmt.Sprintf("%s.%s", t.field1, t.field2)
 }
 
-func check(str  string) bool {
-	if str == "" {
-		return true
-	} else {
-		return false
-	}
+func check(str string) bool {
+	return str == ""
 }
 
 func lintTest(cmd *cobra.Command, args []string) error {
@@ -51,30 +46,27 @@ func lintTest(cmd *cobra.Command, args []string) error {
 		field2: x.field2,
 	}
 	fmt.Println(y)
-	fmt.Println("value of check: %v", check(""))
+	fmt.Printf("value of check: %v", check(""))
 
-	//Reversable was a good exercise right?
-	strs := []string{ "kind: Namespace", "kind:Namespace", "kind: Foo", "kind", "kind:  Namespace"}
+	strs := []string{"kind: Namespace", "kind:Namespace", "kind: Foo", "kind", "kind:  Namespace"}
 	newStrs := []string{}
 
-	if strs != nil && len(strs) != 0 {
+	if len(strs) != 0 {
 		fmt.Println("strs is not empty")
 	}
 
-	for _, str := range strs {
-		newStrs = append(newStrs, str)
-	}
+	newStrs = append(newStrs, strs...)
 
-	nsRegex := regexp.MustCompile("kind:\\s*Namespace")
+	nsRegex := regexp.MustCompile(`kind:\s*Namespace`)
 	set := make(map[string]bool)
 
 	for _, str := range newStrs {
-		if (nsRegex.MatchString(str)) {
+		if nsRegex.MatchString(str) {
 			fmt.Println(str)
 		}
 	}
 
-	for key, _ := range set {
+	for key := range set {
 		fmt.Println(key)
 	}
 

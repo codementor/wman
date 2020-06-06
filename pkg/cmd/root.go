@@ -17,5 +17,6 @@ func NewWmanCmd() *cobra.Command {
 	}
 	cmd.AddCommand(newPrintCmd())
 	cmd.AddCommand(newDogYearCmd())
+	cmd.AddCommand(newLintCmd())
 	return cmd
 }

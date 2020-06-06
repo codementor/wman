@@ -10,10 +10,10 @@ func Reverse(s string) string {
 	return string(b)
 }
 
-// Reversable is a string that is reversable
-type Reversable string
+// Reversible is a string that is Reversible
+type Reversible string
 
-// Reverse reverse a reversable
-func (s Reversable) Reverse() Reversable {
-	return Reversable(Reverse(string(s)))
+// Reverse reverse a Reversible
+func (s Reversible) Reverse() Reversible {
+	return Reversible(Reverse(string(s)))
 }

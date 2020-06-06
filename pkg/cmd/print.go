@@ -38,7 +38,7 @@ func newPrintCmd() *cobra.Command {
 // PrintCmd performs the print sub command
 func PrintCmd(options *printOptions, args []string) error {
 
-	name := wstring.Reversable(args[0])
+	name := wstring.Reversible(args[0])
 	if options.Reverse {
 		name = name.Reverse()
 	}
