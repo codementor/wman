@@ -26,12 +26,17 @@ func newLintCmd() *cobra.Command {
 }
 
 type T struct {
-	field1 string
-	field2 string
+	Field1 string
+	Field2 string
+}
+
+type T2 struct {
+	Field1 string
+	Field2 string
 }
 
 func (t T) String() string {
-	return fmt.Sprintf("%s.%s", t.field1, t.field2)
+	return fmt.Sprintf("%s.%s", t.Field1, t.Field2)
 }
 
 func check(str string) bool {
@@ -41,11 +46,8 @@ func check(str string) bool {
 func lintTest(cmd *cobra.Command, args []string) error {
 
 	var x T
-	y := T{
-		field1: x.field1,
-		field2: x.field2,
-	}
-	
+	y := T2(x)
+
 	fmt.Println(y)
 	fmt.Printf("value of check: %v", check(""))
 
