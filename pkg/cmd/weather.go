@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/gosuri/uitable"
 	"github.com/spf13/cobra"
 
 	"github.com/codementor/wman/pkg/weather"
@@ -72,6 +73,10 @@ func printCityWeather(config *weather.Config, city string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("weather: ", m)
+
+	table := uitable.New()
+	table.AddRow("City", "Temp", "Desc")
+	table.AddRow(m.City, m.Temp, m.Desc)
+	fmt.Println(table)
 	return nil
 }
