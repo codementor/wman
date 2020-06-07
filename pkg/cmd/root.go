@@ -19,5 +19,6 @@ func NewWmanCmd() *cobra.Command {
 	cmd.AddCommand(newDogYearCmd())
 	cmd.AddCommand(newLintCmd())
 	cmd.AddCommand(newConfigCmd())
+	cmd.AddCommand(newWeatherCmd())
 	return cmd
 }
