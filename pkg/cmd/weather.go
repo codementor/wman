@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/gosuri/uitable"
 	"github.com/spf13/cobra"
@@ -57,26 +58,31 @@ func newWeatherGetCmd() *cobra.Command {
 			if len(args) < 1 {
 				return fmt.Errorf("city must be provided")
 			}
-			return printCityWeather(config, args[0])
+			return printCityWeather(config, args)
 		},
 	}
 
 	return cmd
 }
 
-func printCityWeather(config *weather.Config, city string) error {
+func printCityWeather(config *weather.Config, cities []string) error {
 	f, err := weather.New(config)
 	if err != nil {
 		return err
 	}
-	m, err := f.Get(city)
+	mList, err := f.GetCities(cities)
 	if err != nil {
 		return err
 	}
 
+	sort.Sort(mList)
+
 	table := uitable.New()
 	table.AddRow("City", "Temp", "Desc")
-	table.AddRow(m.City, m.Temp, m.Desc)
+	for _, m := range mList {
+		table.AddRow(m.City, m.Temp, m.Desc)
+	}
+
 	fmt.Println(table)
 	return nil
 }

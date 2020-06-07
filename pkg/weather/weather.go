@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 )
 
 const (
@@ -35,6 +36,37 @@ func New(config *Config) (*Fetcher, error) {
 	return &Fetcher{
 		url: fmt.Sprintf("%s?appid=%s&units=%s", wurl, config.Key, units),
 	}, nil
+}
+
+func (f *Fetcher) GetCities(cities []string) (Models, error) {
+	start := time.Now()
+	ml := make(Models, 0)
+
+	// channel for results in mchan or model channel
+	mchan := make(chan *Model)
+	for _, city := range cities {
+
+		go func(city string) {
+			m, _ := f.Get(city)
+			// put the model in the channel
+			mchan <- m
+		}(city)
+	}
+
+	for {
+		// put models from model channel
+		m := <-mchan
+		ml = append(ml, *m)
+
+		// if we get all the cities back we can break
+		if len(ml) == len(cities) {
+			break
+		}
+	}
+
+	elapsed := time.Since(start)
+	fmt.Printf("GetCities took %s\n", elapsed)
+	return ml, nil
 }
 
 func (f *Fetcher) Get(city string) (*Model, error) {

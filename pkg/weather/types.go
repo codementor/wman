@@ -1,5 +1,9 @@
 package weather
 
+import (
+	"sort"
+)
+
 type UnitType string
 
 const (
@@ -37,3 +41,20 @@ type Model struct {
 	Temp float64
 	Desc string
 }
+
+type Models []Model
+
+func (m Models) Len() int {
+	return len(m)
+}
+
+func (m Models) Less(i, j int) bool {
+	// what do you want to sort on?  city?  temperature?
+	return m[i].City < m[j].City
+}
+
+func (m Models) Swap(i, j int) {
+	m[i], m[j] = m[j], m[i]
+}
+
+var _ sort.Interface = &Models{}
