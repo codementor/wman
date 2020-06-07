@@ -6,10 +6,10 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// GetConfig retrieves a WeatherConfig from a file
-func GetConfig(file string) (*WeatherConfig, error) {
+// GetConfig retrieves a Config from a file
+func GetConfig(file string) (*Config, error) {
 
-	wc := &WeatherConfig{}
+	wc := &Config{}
 	yamlFile, err := ioutil.ReadFile(file)
 	if err != nil {
 		return nil, err

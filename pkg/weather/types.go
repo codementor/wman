@@ -4,10 +4,10 @@ type UnitType string
 
 const (
 	Fahrenheit UnitType = "fahrenheit"
-	celsius             = "celsius"
+	Celsius    UnitType = "celsius"
 )
 
-type WeatherConfig struct {
+type Config struct {
 	Key    string   `json:"key"`
 	Unit   UnitType `json:"unit"`
 	Cities []string `json:"cities"`

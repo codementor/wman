@@ -33,7 +33,7 @@ func ConfigCmd(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	
+
 	fmt.Println("configuration:")
 	fmt.Println("  key:", wc.Key)
 	fmt.Println("  unit:", wc.Unit)
