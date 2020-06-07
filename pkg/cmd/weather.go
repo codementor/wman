@@ -1,7 +1,11 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
+
+	"github.com/codementor/wman/pkg/weather"
 )
 
 const weatherDesc = `
@@ -28,7 +32,7 @@ func newWeatherCmd() *cobra.Command {
 		Short: "Displays different options for weather",
 		Long:  weatherDesc,
 	}
-	cmd.PersistentFlags().StringVar(&opts.config, "config", "config.yaml", "The config to use for weather.")
+	cmd.PersistentFlags().StringVarP(&opts.config, "config", "c", "config.yaml", "The config to use for weather.")
 	cmd.AddCommand(newWeatherGetCmd())
 	return cmd
 }
@@ -41,9 +45,33 @@ func newWeatherGetCmd() *cobra.Command {
 		Short:   "Displays the weather for a city.",
 		Example: weatherGetExample,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return nil
+			file, err := cmd.Flags().GetString("config")
+			if err != nil {
+				return err
+			}
+			config, err := weather.GetConfig(file)
+			if err != nil {
+				return err
+			}
+			if len(args) < 1 {
+				return fmt.Errorf("city must be provided")
+			}
+			return printCityWeather(config, args[0])
 		},
 	}
 
 	return cmd
+}
+
+func printCityWeather(config *weather.Config, city string) error {
+	f, err := weather.New(config)
+	if err != nil {
+		return err
+	}
+	m, err := f.Get(city)
+	if err != nil {
+		return err
+	}
+	fmt.Println("weather: ", m)
+	return nil
 }
