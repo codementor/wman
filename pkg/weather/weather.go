@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -40,28 +41,29 @@ func New(config *Config) (*Fetcher, error) {
 
 func (f *Fetcher) GetCities(cities []string) (Models, error) {
 	start := time.Now()
+
+	var wg sync.WaitGroup
+	wg.Add(len(cities))
 	ml := make(Models, 0)
 
 	// channel for results in mchan or model channel
-	mchan := make(chan *Model)
+	mchan := make(chan Model, len(cities))
 	for _, city := range cities {
 
-		go func(city string) {
+		go func(city string, wait *sync.WaitGroup, ch chan<- Model) {
+			defer wait.Done()
+
 			m, _ := f.Get(city)
 			// put the model in the channel
-			mchan <- m
-		}(city)
+			ch <- *m
+
+		}(city, &wg, mchan)
 	}
 
-	for {
-		// put models from model channel
-		m := <-mchan
-		ml = append(ml, *m)
-
-		// if we get all the cities back we can break
-		if len(ml) == len(cities) {
-			break
-		}
+	wg.Wait()
+	close(mchan)
+	for model := range mchan {
+		ml = append(ml, model)
 	}
 
 	elapsed := time.Since(start)
