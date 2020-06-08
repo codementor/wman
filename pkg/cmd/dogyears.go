@@ -23,7 +23,7 @@ func newDogYearCmd() *cobra.Command {
 		Use:     "dogyear",
 		Short:   "Calculates dogyears",
 		Example: dogYearExample,
-		RunE:    lintTest,
+		RunE:    DogYearCmd,
 	}
 
 	return cmd
